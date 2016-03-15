@@ -57,3 +57,9 @@ Contributors
 
 * Mark Galloway
 * Abram Hindle
+
+External Resources
+==================
+
+- Abram Hindle's class demo https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
+- my own code from last assigment https://github.com/bvincent1/CMPUT404-assignment-ajax/blob/master/static/index.html

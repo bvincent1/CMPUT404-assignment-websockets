@@ -46,6 +46,13 @@ debug("Test");
 
 world = {};
 
+function getRandColor(){
+    var colors = ["CC0000", "CC0033", "CC0066", "CC0099", "CC00CC", "CC00FF",
+        "CC3300", "CC3333", "CC3366", "CC3399", "CC33CC", "CC33FF",
+        "CC6600", "CC6633", "CC6666", "CC6699", "CC66CC", "CC66FF"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
 //XXX: TODO Make this prettier!
 function drawCircle(context,entity) {
     with(context) {
@@ -54,7 +61,7 @@ function drawCircle(context,entity) {
         var x = entity["x"];
         var y = entity["y"];
         //moveTo(x,y);
-        fillStyle = entity["colour"];
+        fillStyle = getRandColor();
         strokeStyle = fillStyle;
         arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);
         stroke();
@@ -251,25 +258,28 @@ function update() {
     drawFrame();
 }
 
-//XXX: TODO
 function wsSetup() {
     var url = "ws://"+host+"/subscribe";
     socket = new WebSocket(url);
     var cmd = {};
     cmd.world = "myWorld.world()";
     socket.onopen = function() {
-        socket.send('{"cmd":'+cmd.world+'}');
+        // TODO ??
+        console.log("open")
     };
     socket.onerror = function(msg) {
         debug("WebSocket Error:" + msg.data);
     };
     socket.onmessage = function(msg) {
+        console.log("msg")
         try {
             debug("WebSocket Recv:" + msg.data);
-            resp = JSON.parse(msg.data);
-            if (resp.cmd == cmd.world) {
-                world = resp.result;
-            }
+            // TODO
+            var resp = JSON.parse(msg.data);
+            $.each(resp,function(i){
+                console.log(resp[i])
+                world[i] = resp[i];
+            });
         } catch (e) {
             alert("socket on message: " + e);
         }
